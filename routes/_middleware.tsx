@@ -8,7 +8,7 @@ export async function handler(
   const resp = await ctx.next();
   const headers = resp.headers;
 
-  headers.set("Access-Control-Allow-Origin", origin);
+  headers.set("Access-Control-Allow-Origin", '*');
   headers.set("Access-Control-Allow-Credentials", "true");
   headers.set(
     "Access-Control-Allow-Headers",
@@ -18,6 +18,7 @@ export async function handler(
     "Access-Control-Allow-Methods",
     "POST, OPTIONS, GET, PUT, DELETE",
   );
+
 
   return resp;
 }

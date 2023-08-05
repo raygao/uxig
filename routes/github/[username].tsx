@@ -9,7 +9,7 @@ interface User {
 }
 
 export const handler: Handlers<User | null> = {
-  async GET(_, ctx) {
+  async GET(_req, ctx) {
     const { username } = ctx.params;
     const resp = await fetch(`https://api.github.com/users/${username}`);
     if (resp.status === 404) {

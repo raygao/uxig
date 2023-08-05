@@ -3,6 +3,9 @@ import { useSignal } from "@preact/signals";
 import { HandlerContext, Handlers, PageProps } from "$fresh/server.ts";
 import Counter from '../islands/Counter.tsx'
 import GenStory from '../islands/GenStory.tsx'
+import Preferences from "../islands/Preferences.tsx";
+
+import chalk from "npm:chalk@5";
 
 interface Patron {
   Name: string;
@@ -15,20 +18,21 @@ export const handler: Handlers<Patron> = {
   async GET(req, ctx) {
     const url = new URL(req.url);
     const input = url.searchParams.get("patron") || "";
-    console.log("Patron's name is: " + input);
+    // console.log("Patron's name is: " + input);
     return ctx.render({ Name: input });
   },
   // POST is used for the form post
   async POST(req, ctx) {
     const form = await req.formData();
     const input = form.get("patron")?.toString();
-    console.log("Patron's name is: " + input);
+    // console.log("Patron's name is: " + input);
     return ctx.render({ Name: input! });
   },
 };
 
 export default function Home(props: PageProps) {
   const count = useSignal(3);
+  //console.log(chalk.green("Hello! NPM package could also be used."));
   return (
     <>
       <Head>
@@ -66,7 +70,10 @@ export default function Home(props: PageProps) {
             </div>
             <br/>
             <div style="border-top: 1px solid black;">
-              Div for Counter <Counter count={count}></Counter>
+              <Preferences/>
+            </div>
+            <br/>
+            <div style="border-top: 1px solid black;">
               <GenStory/>
             </div>
           </p>

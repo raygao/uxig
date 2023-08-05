@@ -14,7 +14,7 @@ export const handler: Handlers<Patron> = {
     const url = new URL(req.url);
     const input = url.searchParams.get("patron") || "";
     const patron = new Patron(input);
-    console.log("Patron's name is: " + patron.Name);
+    // console.log("Patron's name is: " + patron.Name);
     return ctx.render(patron);
   },
 };
