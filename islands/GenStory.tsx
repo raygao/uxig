@@ -1,6 +1,6 @@
 import { ResolutionHosts } from "https://deno.land/x/ts_morph@17.0.1/ts_morph.js";
 import { Button } from "../components/Button.tsx";
-import { LongerInput } from "../components/LongerInput.tsx";
+import { TextArea } from "../components/TextArea.tsx";
 
 
 const GenStoryURL = "./api/genStory";
@@ -11,11 +11,12 @@ const GenGherkinURL = "./api/genGherkin";
 
 export default function GenStory() {
   return (
-    <div class="flex gap-8 py-6">
+    <div class="flex gap-12 py-8">
       <div name="StoryGenerator">
         <form method="POST" disabled="true">
-          <LongerInput
-            type="text"
+          <TextArea
+            type="textarea"
+            rows = "4"
             name="scenario"
             value=""
             placeholder="Enter a short description about your story scenario."

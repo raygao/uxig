@@ -1,6 +1,6 @@
 import type { Signal } from "@preact/signals";
 import { Button } from "../components/Button.tsx";
-import { LongerInput } from "../components/LongerInput.tsx";
+import { TextArea } from "../components/TextArea.tsx";
 
 const URL = "./api/setPreferences";
 let PreferenceID = "";
