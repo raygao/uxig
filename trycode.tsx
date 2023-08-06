@@ -1,9 +1,47 @@
+import { Bson, MongoClient, ObjectId } from "https://deno.land/x/mongo@v0.31.2/mod.ts";
 
+// localhost
+//const mongoConnectionString = "mongodb://{username}:{password}@127.0.0.1:27017/?authMechanism=SCRAM-SHA-1&authSource=uxig";
 
-const p = "Story 1:\nStep 1: Grace, a high school student, decides to learn French.\nStep 2: She enrolls in a language class and starts practicing vocabulary and grammar.\nStep 3: Grace practices speaking with native speakers, improving her pronunciation.\nStep 4: She immerses herself in French music and movies, enhancing her listening skills.\nStep 5: Months later, Grace confidently converses with a French exchange student, realizing her dedication paid off.\n\nStory 2:\nStep 1: Alex, an aspiring traveler, wants to learn Spanish.\nStep 2: He downloads a language learning app and studies diligently daily.\nStep 3: Alex listens to Spanish podcasts, improving his comprehension skills.\nStep 4: He visits a Spanish-speaking country, immersing himself in the language.\nStep 5: Alex successfully becomes fluent, making new friends and exploring new cultures effortlessly.\n\nStory 3:\nStep 1: Emma, a businesswoman, aims to learn Mandarin.\nStep 2: She hires a private tutor and practices conversational skills.\nStep 3: Emma attends language exchange meetups, gaining confidence in speaking.\nStep 4: She travels to China for work, impressing her clients with her language abilities.\nStep 5: Emma's proficiency in Mandarin opens up new career opportunities and deepens her cultural understanding.";
+// mongo atlas, note authMechanism=SCRAM-SHA-1 is needed. otherwise, will get an error.
+const mongoConnectionString = "mongodb+srv://{username}:{password}@uxig.wdkvebb.mongodb.net/?authMechanism=SCRAM-SHA-1&authSource=uxig&retryWrites=true&w=majority&authSource=uxig";
+console.log("mongo connection string is: "+ mongoConnectionString);
 
-console.log(p.replaceAll(/\n/g, " <br/><br/>"));
+// Connecting to a Mongo Atlas Database, tls should be false for the local system
+export async function getMongoConnection() {
+  const client = new MongoClient();
+  await client.connect(mongoConnectionString);
+//   await client.connect({
+//     db: "uxig",
+//     tls: false,
+//     servers: [
+//       {
+//         host: "127.0.0.1",
+//         port: 27017,
+//       },
+//     ],
+//     credential: {
+//       username: "ray",
+//       password: "ray",
+//       db: "uxig",
+//       mechanism: "SCRAM-SHA-1",
+//     },
+//   });
+  return client;
+}
 
-var text = 'test1 \ntest2';
+// for MongoDB
+interface PreferencesSchema {
+    _id: ObjectId;
+    StoryCopies: number;
+    StoryLength: number;
+    StorySteps: number;
+    Sentiment: string;
+    Regeneration: number;
+  }
 
-console.log(text.replaceAll(/\n/g, " <br/><br/>"))     //['test1', 'test2']
+const con = await getMongoConnection();
+const db = con.database("uxig");
+const preferences = db.collection<PreferencesSchema>("Preferences");
+console.log(await preferences.findOne({_id: new ObjectId("64cfdaeb2d3acea679246893")}));
+console.log(await preferences.findOne({_id: new ObjectId("64cfdaeb2d3acea67924689d")}));
