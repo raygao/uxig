@@ -75,10 +75,10 @@ async function genStory(scenario: string) {
         { "role": "user", "content": scenario },
       ],
     });
-    console.log("OPENAI call completed.");
+    // console.log("OPENAI call completed.");
     return JSON.stringify(chatCompletion.choices[0].message.content);
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     return "error in calling genstory";
   }
 

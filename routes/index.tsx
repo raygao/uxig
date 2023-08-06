@@ -1,16 +1,29 @@
 import { Head } from "$fresh/runtime.ts";
 import { useSignal } from "@preact/signals";
 import { HandlerContext, Handlers, PageProps } from "$fresh/server.ts";
-import Counter from '../islands/Counter.tsx'
-import GenStory from '../islands/GenStory.tsx'
+import GenStory from "../islands/GenStory.tsx";
 import Preferences from "../islands/Preferences.tsx";
+import { getMongoConnection } from "../Data/MongoDB.tsx";
 
+// default text, if no Patron is available.
+const GUEST = "{GUEST}";
+
+//For the Web app
 interface Patron {
   Name: string;
 }
 
-const GUEST = "{GUEST}";
+// for MongoDB
+interface PatronSchema {
+  _id: ObjectId;
+  name: string;
+}
 
+// Create initial database connection to mongoDB
+const con = await getMongoConnection();
+const db = con.database("uxig");
+
+// main code
 export const handler: Handlers<Patron> = {
   // Get method only used for the initial page load
   async GET(req, ctx) {
@@ -19,11 +32,21 @@ export const handler: Handlers<Patron> = {
     // console.log("Patron's name is: " + input);
     return ctx.render({ Name: input });
   },
-  // POST is used for the form post
+  // POST is used for the form post, to create a Patron in the MongoDB
   async POST(req, ctx) {
     const form = await req.formData();
     const input = form.get("patron")?.toString();
+    const saveName: string = (input) ? input : "undefined";
     // console.log("Patron's name is: " + input);
+    //Insertion part
+    const patrons = db.collection<PatronSchema>("Patrons");
+    const insertIds = await patrons.insertMany([
+      {
+        name: saveName,
+      },
+    ]);
+
+    // return to the HTML section.
     return ctx.render({ Name: input! });
   },
 };
@@ -43,7 +66,7 @@ export default function Home(props: PageProps) {
             src="/uxig.png"
             width="128"
             height="128"
-            alt="the fresh logo: a sliced lemon dripping with juice"
+            alt="uxig logo"
           />
           <h2>An interactive tools for User Experience Research</h2>
           <br />
@@ -53,25 +76,33 @@ export default function Home(props: PageProps) {
           </h1>
           <p class="my-4">
             <div>
-              <i>How may I have the pleasure of knowing your name?</i>
-              &nbsp;&nbsp;&nbsp;
-              <form method="POST">
-                <input
-                  type="text"
-                  name="patron"
-                  value=""
-                  placeholder="Enter your name here"
-                />&nbsp;&nbsp;&nbsp;
-                <button type="submit" style="border: 4px black; background-color: #e7e7e7">Enter</button>
-              </form>
+              {props.data.Name == "" &&
+                (
+                  <form method="POST" id="setPatronName">
+                    <i>How may I have the pleasure of knowing your name?</i>
+                    &nbsp;&nbsp;&nbsp;
+                    <input
+                      type="text"
+                      name="patron"
+                      value=""
+                      placeholder="Enter your name here"
+                    />&nbsp;&nbsp;&nbsp;
+                    <button
+                      type="submit"
+                      style="border: 4px black; background-color: #e7e7e7"
+                    >
+                      Enter
+                    </button>
+                  </form>
+                )}
             </div>
-            <br/>
+            <br />
             <div style="border-top: 1px solid black;">
-              <Preferences/>
+              <Preferences />
             </div>
-            <br/>
+            <br />
             <div style="border-top: 1px solid black;">
-              <GenStory/>
+              <GenStory />
             </div>
           </p>
         </div>
