@@ -5,8 +5,6 @@ import Counter from '../islands/Counter.tsx'
 import GenStory from '../islands/GenStory.tsx'
 import Preferences from "../islands/Preferences.tsx";
 
-import chalk from "npm:chalk@5";
-
 interface Patron {
   Name: string;
 }
@@ -32,7 +30,6 @@ export const handler: Handlers<Patron> = {
 
 export default function Home(props: PageProps) {
   const count = useSignal(3);
-  //console.log(chalk.green("Hello! NPM package could also be used."));
   return (
     <>
       <Head>

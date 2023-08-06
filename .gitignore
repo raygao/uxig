@@ -4,3 +4,9 @@
 .env.test.local
 .env.production.local
 .env.local
+.vscode
+.vscode/*
+.vscode/launch.json
+launch.json
+settings.json
+extensions.json

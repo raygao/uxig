@@ -2,9 +2,8 @@
 import { HandlerContext, Handlers } from "$fresh/server.ts";
 import { OpenAI } from "https://deno.land/x/openai/mod.ts";
 
-const apiKey = "my secret key";
-//const openAI = new OpenAI(Deno.env.get("apiKey")!);
-const openAI = new OpenAI(apiKey);
+
+const openAI = new OpenAI(Deno.env.get("chatGptKey")!);
 
 interface Story {
   id: number;
@@ -29,10 +28,10 @@ export const handler: Handlers = {
       const body = await req.text();
       if (body != "") {
         console.log("Body from the Request:", body);
-        const response = new Response("anything"); //not calling genStory works.
+        //const response = new Response("anything"); //not calling genStory works.
         const results = await genStory(body); // The offending line.
-        return results;
-        
+        return new Response(results);
+
         // var results = await genStory(body).then(() => {
         //   const response = new Response("anything");
         //   return response;
