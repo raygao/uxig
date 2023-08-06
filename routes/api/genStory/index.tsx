@@ -1,18 +1,33 @@
 // routes/api/genStory/index.tsx
 import { HandlerContext, Handlers } from "$fresh/server.ts";
-import { OpenAI } from "https://deno.land/x/openai/mod.ts";
-
-
+import { OpenAI } from "https://deno.land/x/openai@1.4.2/mod.ts";
+import { getMongoConnection } from "../../../Data/MongoDB.tsx";
 const openAI = new OpenAI(Deno.env.get("chatGptKey")!);
-
+import { Bson, ObjectId } from "https://deno.land/x/mongo@v0.31.2/mod.ts";
+ 
 interface Story {
   id: number;
   scenario: string;
   content: string;
 }
 
+// DEFAULT
 const SCENARIO =
   "write me two 50 words story with positive sentiment, where David (the person) - how learns a new language in 30 days. The generated story should be no more than 5 steps in complexity.";
+
+// for MongoDB
+interface PreferencesSchema {
+  _id: ObjectId;
+  StoryCopies: number;
+  StoryLength: number;
+  StorySteps: number;
+  Sentiment: string;
+  Regeneration: number;
+}
+
+// Create initial database connection to mongoDB
+const con = await getMongoConnection();
+const db = con.database("uxig");
 
 export const handler: Handlers = {
   async GET(req, ctx) {
@@ -26,25 +41,28 @@ export const handler: Handlers = {
     //const url = new URL(req.url);
     if (req.body) {
       const body = await req.text();
-      if (body != "") {
-        console.log("Body from the Request:", body);
-        //const response = new Response("anything"); //not calling genStory works.
-        const results = await genStory(body); // The offending line.
-        return new Response(results);
-
-        // var results = await genStory(body).then(() => {
-        //   const response = new Response("anything");
-        //   return response;
-        // });
-        // const resultStory = await genStory(body).then(
-        //   function(e) {console.log("returning generated story now... ")});
-        // console.log("returning generated story now... " + resultStory
-        // const response = new Response(resultStory);
-        // const response = new Response('abcdefghijkl');
-        // return response;
-
+      const command = JSON.parse(body).command;
+      if (command != "") {
+        console.log("Command from the Request:", command);
+        //check for preferences.
+        const preferences = db.collection<PreferencesSchema>("Preferences");
+        const PreferenceID = JSON.parse(body).PreferenceID;
+        if (PreferenceID != null && PreferenceID != '{}') {
+          // no associated preference set.
+          const thePrefs =await preferences.findOne( {
+            _id: new ObjectId(PreferenceID)
+          });
+          const fullCommand = command + ' Produce: ' + thePrefs.StoryCopies + ' stories, each with ' + thePrefs.StoryLength + ' words, ' + thePrefs.StorySteps + ' steps, ' + thePrefs.Sentiment + ' sentiment, and ' + thePrefs.Regeneration + ' temperature'; 
+          console.log("With prefernce enriched: " + fullCommand);
+          const results = await genStory(fullCommand); 
+          return new Response(results);
+        } else {
+          // No preference found
+          const results = await genStory(command); 
+          return new Response(results);
+        }
       } else {
-        const blankStory = "You have entered a blank scenario";
+        const blankStory = "You have entered a blank scenario. Nothing to do (generate).";
         return new Response(blankStory);
       }
     } else {
@@ -65,18 +83,19 @@ export const handler: Handlers = {
 // };
 
 // call ChatGPT to get generated story...
-async function genStory(scenario: string) {
+async function genStory(command: string) {
   try {
     console.log("BEFORE OPENAI call.");
     const chatCompletion = await openAI.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
         { "role": "system", "content": "You are a helpful assistant." },
-        { "role": "user", "content": scenario },
+        { "role": "user", "content": command },
       ],
     });
-    // console.log("OPENAI call completed.");
-    return JSON.stringify(chatCompletion.choices[0].message.content);
+    const generatedContent = JSON.stringify(chatCompletion.choices[0].message.content);
+    console.log("OPENAI call completed. With generated content: " + generatedContent);
+    return generatedContent;
   } catch (e) {
     // console.log(e);
     return "error in calling genstory";

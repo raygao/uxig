@@ -4,6 +4,7 @@ import { HandlerContext, Handlers, PageProps } from "$fresh/server.ts";
 import GenStory from "../islands/GenStory.tsx";
 import Preferences from "../islands/Preferences.tsx";
 import { getMongoConnection } from "../Data/MongoDB.tsx";
+import { Bson, ObjectId } from "https://deno.land/x/mongo@v0.31.2/mod.ts";
 
 // default text, if no Patron is available.
 const GUEST = "{GUEST}";

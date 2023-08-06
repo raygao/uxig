@@ -25,27 +25,3 @@ export async function getMongoConnection() {
   // });
   return client;
 }
-
-// // Defining schema interface
-// interface UserSchema {
-//   _id: ObjectId;
-//   username: string;
-//   password: string;
-// }
-
-// const clientx = await getMongoConnection();
-// const db = clientx.database("uxig");
-// const users = db.collection<UserSchema>("users");
-
-// const insertIds = await users.insertMany([
-//   {
-//     username: "user1",
-//     password: "pass1",
-//   },
-//   {
-//     username: "user2",
-//     password: "pass2",
-//   },
-// ]);
-
-// console.log("finished inserting: " + insertIds);

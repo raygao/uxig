@@ -19,6 +19,5 @@ export async function handler(
     "POST, OPTIONS, GET, PUT, DELETE",
   );
 
-
   return resp;
 }

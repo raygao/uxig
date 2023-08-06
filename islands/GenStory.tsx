@@ -1,10 +1,11 @@
+import { ResolutionHosts } from "https://deno.land/x/ts_morph@17.0.1/ts_morph.js";
 import { Button } from "../components/Button.tsx";
 import { LongerInput } from "../components/LongerInput.tsx";
 
 
 const URL = "./api/genStory";
-let scenario = "This is the default story template.";
-
+let scenario = "Write me a 15 words story.";
+ 
 export default function GenStory() {
   return (
     <div class="flex gap-8 py-6">
@@ -25,7 +26,10 @@ export default function GenStory() {
               const payload = {
                 method: "POST",
                 headers,
-                body: JSON.stringify({ body: scenario }),
+                body: JSON.stringify({ 
+                  "command": scenario, 
+                  "PreferenceID": document.getElementById("UsingPreferenceID").value,
+                }),
               };
               const storyContent = fetchStory(URL, payload);
             }}
@@ -51,11 +55,13 @@ async function fetchStory(url: string, theScenario: any) {
   try {
     const result = await fetch(url, theScenario);
     const resultInText = await result.text();
-    console.log("+++ Successful end reached! With: " + resultInText);
-    if (resultInText != null) {
-      document.getElementById("returnedStory").innerText = resultInText;
+    const ResultStories = resultInText.replaceAll(/\\n/g, "<br/>");
+    console.log("+++ Successful end reached! With: " + ResultStories);
+    document.getElementById("returnedStory").innerHTML = ResultStories;
+    if (ResultStories != null) {
+      document.getElementById("returnedStory").innerHTML = ResultStories;
     }
-    return resultInText;
+    return ResultStories;
     //alert("Success! " + result.json);
   } catch (error) {
     console.log(`--- Something went wrong`, error.message);

@@ -7,9 +7,9 @@ import * as $1 from "./routes/_app.tsx";
 import * as $2 from "./routes/_middleware.tsx";
 import * as $3 from "./routes/about.tsx";
 import * as $4 from "./routes/api/alive/index.tsx";
-import * as $5 from "./routes/api/genStory/_middleware.tsx";
-import * as $6 from "./routes/api/genStory/index.tsx";
-import * as $7 from "./routes/api/jokes/index.tsx";
+import * as $5 from "./routes/api/genStory/index.tsx";
+import * as $6 from "./routes/api/jokes/index.tsx";
+import * as $7 from "./routes/api/setPreferences/index.tsx";
 import * as $8 from "./routes/countdown.tsx";
 import * as $9 from "./routes/github/[username].tsx";
 import * as $10 from "./routes/greet/[name].tsx";
@@ -29,9 +29,9 @@ const manifest = {
     "./routes/_middleware.tsx": $2,
     "./routes/about.tsx": $3,
     "./routes/api/alive/index.tsx": $4,
-    "./routes/api/genStory/_middleware.tsx": $5,
-    "./routes/api/genStory/index.tsx": $6,
-    "./routes/api/jokes/index.tsx": $7,
+    "./routes/api/genStory/index.tsx": $5,
+    "./routes/api/jokes/index.tsx": $6,
+    "./routes/api/setPreferences/index.tsx": $7,
     "./routes/countdown.tsx": $8,
     "./routes/github/[username].tsx": $9,
     "./routes/greet/[name].tsx": $10,
