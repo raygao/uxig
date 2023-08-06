@@ -34,7 +34,7 @@ export default function GenStory() {
               const storyContent = fetchStory(URL, payload);
             }}
           >
-            Generate
+            Generate Story
           </Button>
         </form>
       </div>
