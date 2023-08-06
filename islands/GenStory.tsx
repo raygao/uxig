@@ -11,7 +11,7 @@ const GenGherkinURL = "./api/genGherkin";
 
 export default function GenStory() {
   return (
-    <div class="flex gap-12 py-8">
+    <div class="flex gap-4 py-2">
       <div name="StoryGenerator">
         <form method="POST" disabled="true">
           <TextArea
@@ -25,6 +25,7 @@ export default function GenStory() {
           <br/>
           <Button
             type="button"
+            id ="GenStoryButton"
             style="border: 4px black; background-color: #e7e7e7"
             onClick={function (event) {
               event.preventDefault();
@@ -44,6 +45,7 @@ export default function GenStory() {
           &nbsp;&nbsp;&nbsp;
             <Button
             type="button"
+            id ="GenGherkinButton"
             style="border: 4px black; background-color: #e7e7e7"
             onClick={function (event) {
               event.preventDefault();
@@ -77,6 +79,7 @@ function setScenario(event: string) {
 
 async function fetchStory(url: string, theScenario: any) {
   try {
+    document.getElementById("GenStoryButton").innerText  = "working...";
     const result = await fetch(url, theScenario);
     const resultInText = await result.text();
     const ResultStories = resultInText.replaceAll(/\\n/g, "<br/>");
@@ -85,6 +88,7 @@ async function fetchStory(url: string, theScenario: any) {
     if (ResultStories != null) {
       document.getElementById("returnedStory").innerHTML = ResultStories;
     }
+    document.getElementById("GenStoryButton").innerText  = "Generate Story";
     return ResultStories;
     //alert("Success! " + result.json);
   } catch (error) {
@@ -98,6 +102,7 @@ async function fetchStory(url: string, theScenario: any) {
 
 async function fetchGherkin(url: string, theScenario: any) {
   try {
+    document.getElementById("GenGherkinButton").innerText  = "working...";
     const result = await fetch(url, theScenario);
     const resultInText = await result.text();
     const ResultGherkin = resultInText.replaceAll(/\\n/g, "<br/>");
@@ -106,6 +111,7 @@ async function fetchGherkin(url: string, theScenario: any) {
     if (ResultGherkin != null) {
       document.getElementById("returnedGherkin").innerHTML = ResultGherkin;
     }
+    document.getElementById("GenGherkinButton").innerText  = "Gherkin";
     return ResultGherkin;
     //alert("Success! " + result.json);
   } catch (error) {

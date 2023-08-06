@@ -1,5 +1,6 @@
 import {IPreferences} from './IPreferences.ts';
  class Preferences implements IPreferences {
+    //TODO
     /*
     NumberOfStories: number;
     StoryLength: number;

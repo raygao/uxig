@@ -60,7 +60,7 @@ export default function Home(props: PageProps) {
         <title>uxig</title>
         <link rel="icon" type="image/x-icon" href="/uxig.ico"></link>
       </Head>
-      <div class="px-4 py-8 mx-auto bg-[#86efac]">
+      <div class="px-2 py-2 mx-auto bg-[#86efac]">
         <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
           <img
             class="my-6"

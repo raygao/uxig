@@ -114,6 +114,7 @@ export default function Preferences() {
           <br />
           &nbsp;&nbsp;&nbsp;
           <button
+            id="PrefButton"
             type="button"
             style="border: 4px black; background-color: #e7e7e7"
             onClick={function (event) {
@@ -163,6 +164,7 @@ function setPreferences() {
 
 async function sendPreferences(url: string, content: any) {
   try {
+    document.getElementById("PrefButton").innerText  = 'working';
     const result = await fetch(url, content);
     const resultID = await result.text();
     console.log("+++ Successful end reached! With ID: " + resultID);
@@ -170,6 +172,7 @@ async function sendPreferences(url: string, content: any) {
       PreferenceID = resultID;
       //alert("Success! " + result.json);
       document.getElementById("UsingPreferenceID").value =  PreferenceID;
+      document.getElementById("PrefButton").innerText  = 'Save Preferences';
       return PreferenceID;
     }
     //alert("Success! " + result.json);
