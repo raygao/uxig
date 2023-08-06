@@ -3,9 +3,12 @@ import { Button } from "../components/Button.tsx";
 import { LongerInput } from "../components/LongerInput.tsx";
 
 
-const URL = "./api/genStory";
-let scenario = "Write me a 15 words story.";
- 
+const GenStoryURL = "./api/genStory";
+const DefaultScenario = "Write me a 15 words story.";
+let scenario = DefaultScenario;
+
+const GenGherkinURL = "./api/genGherkin";
+
 export default function GenStory() {
   return (
     <div class="flex gap-8 py-6">
@@ -18,6 +21,7 @@ export default function GenStory() {
             placeholder="Enter a short description about your story scenario."
             onInput={(e) => setScenario(e.target.value || "")}
           />&nbsp;&nbsp;&nbsp;
+          <br/>
           <Button
             type="button"
             style="border: 4px black; background-color: #e7e7e7"
@@ -31,14 +35,33 @@ export default function GenStory() {
                   "PreferenceID": document.getElementById("UsingPreferenceID").value,
                 }),
               };
-              const storyContent = fetchStory(URL, payload);
+              const storyContent = fetchStory(GenStoryURL, payload);
             }}
           >
             Generate Story
           </Button>
+          &nbsp;&nbsp;&nbsp;
+            <Button
+            type="button"
+            style="border: 4px black; background-color: #e7e7e7"
+            onClick={function (event) {
+              event.preventDefault();
+              const payload = {
+                method: "POST",
+                headers,
+                body: JSON.stringify({ 
+                  "command": scenario, 
+                  "PreferenceID": document.getElementById("UsingPreferenceID").value,
+                }),
+              };
+              const storyContent = fetchGherkin(GenGherkinURL, payload);
+            }}
+          >Gherkin</Button>
         </form>
       </div>
-      <div id="returnedStory">Result Story</div>
+      <div id="returnedStory">Story Placeholder</div>
+      <hr></hr>
+      <div id="returnedGherkin">Gherkin Placeholder</div>
     </div>
   );
 }
@@ -62,6 +85,27 @@ async function fetchStory(url: string, theScenario: any) {
       document.getElementById("returnedStory").innerHTML = ResultStories;
     }
     return ResultStories;
+    //alert("Success! " + result.json);
+  } catch (error) {
+    console.log(`--- Something went wrong`, error.message);
+    console.error(error);
+    alert(error);
+  } finally {
+    console.log(`>>> Fetch reached finally`);
+  }
+}
+
+async function fetchGherkin(url: string, theScenario: any) {
+  try {
+    const result = await fetch(url, theScenario);
+    const resultInText = await result.text();
+    const ResultGherkin = resultInText.replaceAll(/\\n/g, "<br/>");
+    console.log("+++ Successful end reached! With: " + ResultGherkin);
+    document.getElementById("returnedGherkin").innerHTML = ResultGherkin;
+    if (ResultGherkin != null) {
+      document.getElementById("returnedGherkin").innerHTML = ResultGherkin;
+    }
+    return ResultGherkin;
     //alert("Success! " + result.json);
   } catch (error) {
     console.log(`--- Something went wrong`, error.message);
