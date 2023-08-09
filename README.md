@@ -16,7 +16,6 @@ UXIG is the User Experience Interactive Generator Project. As this is a POC appl
      + See MongoDB Atlas.
 ```
 deno task start
-```
 deno task test
 ```
-
+end
