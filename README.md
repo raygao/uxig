@@ -13,7 +13,7 @@ UXIG is the User Experience Interactive Generator Project. As this is a POC appl
 - For deployment on a server, following environment variables are needed:
   * "chatGptKey": "get this from ChatGP",
   * "mongoConnectionString": "mongodb+srv://{username}:{password}@servername/?authMechanism=SCRAM-SHA-1&authSource=uxig&retryWrites=true&w=majority&authSource=uxig", 
-     ** See MongoDB Atlas.
+     + See MongoDB Atlas.
 ```
 deno task start
 ```
