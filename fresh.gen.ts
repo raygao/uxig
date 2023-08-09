@@ -9,15 +9,12 @@ import * as $3 from "./routes/about.tsx";
 import * as $4 from "./routes/api/alive/index.tsx";
 import * as $5 from "./routes/api/genGherkin/index.tsx";
 import * as $6 from "./routes/api/genStory/index.tsx";
-import * as $7 from "./routes/api/jokes/index.tsx";
-import * as $8 from "./routes/api/setPreferences/index.tsx";
-import * as $9 from "./routes/countdown.tsx";
-import * as $10 from "./routes/github/[username].tsx";
-import * as $11 from "./routes/greet/[name].tsx";
-import * as $12 from "./routes/helloworld.tsx";
-import * as $13 from "./routes/index.tsx";
-import * as $14 from "./routes/index_get.tsx";
-import * as $15 from "./routes/search.tsx";
+import * as $7 from "./routes/api/setPreferences/index.tsx";
+import * as $8 from "./routes/countdown.tsx";
+import * as $9 from "./routes/github/[username].tsx";
+import * as $10 from "./routes/greet/[name].tsx";
+import * as $11 from "./routes/index.tsx";
+import * as $12 from "./routes/index_get.tsx";
 import * as $$0 from "./islands/Countdown.tsx";
 import * as $$1 from "./islands/Counter.tsx";
 import * as $$2 from "./islands/GenStory.tsx";
@@ -32,15 +29,12 @@ const manifest = {
     "./routes/api/alive/index.tsx": $4,
     "./routes/api/genGherkin/index.tsx": $5,
     "./routes/api/genStory/index.tsx": $6,
-    "./routes/api/jokes/index.tsx": $7,
-    "./routes/api/setPreferences/index.tsx": $8,
-    "./routes/countdown.tsx": $9,
-    "./routes/github/[username].tsx": $10,
-    "./routes/greet/[name].tsx": $11,
-    "./routes/helloworld.tsx": $12,
-    "./routes/index.tsx": $13,
-    "./routes/index_get.tsx": $14,
-    "./routes/search.tsx": $15,
+    "./routes/api/setPreferences/index.tsx": $7,
+    "./routes/countdown.tsx": $8,
+    "./routes/github/[username].tsx": $9,
+    "./routes/greet/[name].tsx": $10,
+    "./routes/index.tsx": $11,
+    "./routes/index_get.tsx": $12,
   },
   islands: {
     "./islands/Countdown.tsx": $$0,

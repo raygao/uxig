@@ -1,7 +1,8 @@
 import { Bson, MongoClient } from "https://deno.land/x/mongo@v0.31.2/mod.ts";
 
 const mongoConnectionString = Deno.env.get("mongoConnectionString")!;
-console.log("mongo connection string is: "+ mongoConnectionString);
+
+console.log("The MongoDB connection string is: "+ mongoConnectionString);
 
 // Connecting to a Mongo Atlas Database, tls should be false for the local system
 export async function getMongoConnection() {
