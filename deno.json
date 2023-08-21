@@ -30,7 +30,7 @@
   },
   "test": {
     "include": [
-      "Tests/about_test.ts"
+      "tests/about_test.ts"
     ]
   }
 }

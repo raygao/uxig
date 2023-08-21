@@ -1,4 +1,4 @@
-# dotenv environment variable files
+# visual studio environment variable files
 .env
 .env.development.local
 .env.test.local
@@ -7,6 +7,8 @@
 .vscode
 .vscode/*
 .vscode/launch.json
+node_modules
+node_modules/*
 launch.json
 settings.json
 extensions.json
