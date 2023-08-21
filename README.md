@@ -19,3 +19,7 @@ deno task start
 deno task test
 ```
 end
+
+### Testing
+- The Behavior testing is provided using Cucumber-JS
+- The API/Behavior testing is provided by PactumJS + Cucumber-JS (for Async calls)
